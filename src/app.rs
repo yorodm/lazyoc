@@ -1,6 +1,6 @@
 use std::error;
 use tui::backend::Backend;
-use tui::layout::Alignment;
+use tui::layout::{Alignment, Constraint, Direction, Layout};
 use tui::style::{Color, Style};
 use tui::terminal::Frame;
 use tui::widgets::{Block, Borders, Paragraph};
@@ -32,16 +32,10 @@ impl App {
 
     /// Renders the user interface widgets.
     pub fn render<B: Backend>(&mut self, frame: &mut Frame<'_, B>) {
-        // This is where you add new widgets.
-        // See the following resources:
-        // - https://docs.rs/tui/0.16.0/tui/widgets/index.html
-        // - https://github.com/fdehau/tui-rs/tree/v0.16.0/examples
-        frame.render_widget(
-            Paragraph::new("lazyoc")
-                .block(Block::default().borders(Borders::ALL))
-                .style(Style::default().fg(Color::White).bg(Color::Black))
-                .alignment(Alignment::Center),
-            frame.size(),
-        )
+        let chunks = Layout::default()
+            .direction(Direction::Horizontal)
+            .constraints([Constraint::Percentage(50),
+                          Constraint::Percentage(50)].as_ref())
+            .split(frame.size());
     }
 }
